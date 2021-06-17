@@ -1,5 +1,6 @@
 set nocompatible
 call plug#begin()
+	Plug 'tpope/vim-surround'
 	" Shorthand notation; fetches https://github.com/junegunn/vim-easy-align
 	Plug 'junegunn/vim-easy-align'
 
@@ -44,7 +45,15 @@ call plug#begin()
 	Plug 'KabbAmine/vCoolor.vim'
 	Plug 'vim-scripts/loremipsum'
 	Plug 'norcalli/nvim-colorizer.lua'
-	Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+	"Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+	Plug 'turbio/bracey.vim' " live html :wq
+	Plug 'dense-analysis/ale'
+	" Use release branch (recommend)
+	Plug 'neoclide/coc.nvim', {'branch': 'release'}
+	Plug 'airblade/vim-gitgutter' 
+	Plug 'blueyed/vim-diminactive'
+	"Plug 'junegunn/limelight.vim'
+	"Plug 'junegunn/goyo.vim'
 call plug#end()
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set termguicolors
@@ -54,7 +63,7 @@ syntax on
 syntax enable
 set omnifunc=syntaxcomplete#Complete
 "imap <c-space> <c-x><c-o>
-imap <c-space> <c-x><c-f>
+"imap <c-space> <c-x><c-f>
 
 set number relativenumber
 set title
@@ -62,11 +71,12 @@ set fileformat=unix
 
 colorscheme gruvbox
 let g:AirlineTheme = 'gruvbox'
-let g:lightline = {'colorscheme': 'gruvbox', 'background': 'dark'}
+"let g:lightline = {'colorscheme': 'gruvbox', 'background': 'dark'}
 
-highlight Normal ctermbg=none guibg=none
-highlight SignColumn ctermbg=none guibg=none
-highlight LineNr ctermbg=none guibg=none
+" se elimina el font correspondiente al colorscheme
+"highlight Normal ctermbg=none guibg=none
+"highlight SignColumn ctermbg=none guibg=none
+"highlight LineNr ctermbg=none guibg=none
 
 " Config tecla de emmet
 let g:user_emmet_leader_key=','
@@ -86,7 +96,54 @@ nmap <F8> :TagbarToggle<CR>
 
 lua require'colorizer'.setup()
 
-let g:deoplete#enable_at_startup = 1
+"let g:deoplete#enable_at_startup = 1
 
 inoremap <silent><expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 inoremap <silent><expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
+
+" Use ctrl-[hjkl] to select the active split!
+nmap <silent> <c-k> :wincmd k<CR>
+nmap <silent> <c-j> :wincmd j<CR>
+nmap <silent> <c-h> :wincmd h<CR>
+nmap <silent> <c-l> :wincmd l<CR>
+
+let g:ale_fixers = {
+ \ 'html': ['prettier'],
+ \ 'css': ['stylelint'],
+ \}
+let g:ale_linters = {
+ \ 'html': ['htmlhint'],
+ \ 'css': ['stylelint'],
+ \}
+let g:ale_linters_explicit = 1
+let g:ale_fix_on_save = 1
+let g:ale_disable_lsp = 1
+
+" Use tab for trigger completion with characters ahead and navigate.
+" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" other plugin before putting this into your config.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use <c-space> to trigger completion.
+if has('nvim')
+  inoremap <silent><expr> <c-space> coc#refresh()
+else
+  inoremap <silent><expr> <c-@> coc#refresh()
+endif
+
+"autocmd! VimEnter * Limelight
+"autocmd! User GoyoEnter Limelight
+"autocmd! User GoyoLeave Limelight 
+
+autocmd VimEnter *.html Bracey 
+" disable auto-formatting of comments entirely.
+autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o 
