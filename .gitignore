@@ -1,3 +1,4 @@
 pack/
 plugged/
 .netrwhist
+!plugged/emmet-vim/

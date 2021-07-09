@@ -23,7 +23,8 @@ call plug#begin()
 
 	" Tema para nvim
 	Plug 'dracula/vim'
-	Plug 'morhetz/gruvbox'
+	"Plug 'morhetz/gruvbox'
+	Plug 'whatyouhide/vim-gotham'
 	Plug 'vim-airline/vim-airline'
 	Plug 'vim-airline/vim-airline-themes'
 	Plug 'itchyny/lightline.vim'
@@ -46,12 +47,14 @@ call plug#begin()
 	Plug 'vim-scripts/loremipsum'
 	Plug 'norcalli/nvim-colorizer.lua'
 	"Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-	Plug 'turbio/bracey.vim' " live html :wq
+	Plug 'turbio/bracey.vim', {'do': 'npm install --prefix server'}
 	Plug 'dense-analysis/ale'
 	" Use release branch (recommend)
 	Plug 'neoclide/coc.nvim', {'branch': 'release'}
 	Plug 'airblade/vim-gitgutter' 
 	Plug 'blueyed/vim-diminactive'
+	Plug 'tamago324/vim-browsersync'
+	Plug 'tyru/open-browser.vim'
 	"Plug 'junegunn/limelight.vim'
 	"Plug 'junegunn/goyo.vim'
 call plug#end()
@@ -65,13 +68,16 @@ set omnifunc=syntaxcomplete#Complete
 "imap <c-space> <c-x><c-o>
 "imap <c-space> <c-x><c-f>
 
+imap <c-l>  <Esc> :Loremipsum10<CR>
+
 set number relativenumber
 set title
 set fileformat=unix
 
-colorscheme gruvbox
-let g:AirlineTheme = 'gruvbox'
+colorscheme gotham "gruvbox
+let g:airline_theme = 'gotham'
 "let g:lightline = {'colorscheme': 'gruvbox', 'background': 'dark'}
+let g:lightline = {'colorscheme': 'gotham'}
 
 " se elimina el font correspondiente al colorscheme
 "highlight Normal ctermbg=none guibg=none
