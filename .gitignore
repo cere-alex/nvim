@@ -1,7 +1,6 @@
 pack/
-plugged/*
+plugged/
 .netrwhist
 
-!emmet.vim
 
 
