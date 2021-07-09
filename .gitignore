@@ -1,4 +1,5 @@
 pack/
-plugged/
+plugged/*
 .netrwhist
-!plugged/emmet-vim/
+
+!plugged/emmet-vim/autoload/emmet.vim
